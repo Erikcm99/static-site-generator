@@ -1,12 +1,11 @@
 from markdown_to_blocks import markdown_to_blocks
 from blocktype import block_to_block_type, BlockType
 from text_to_textnodes import text_to_textnode
-from textnode import text_node_to_html_node
+from textnode import text_node_to_html_node, TextNode, TextType
 from parentnode import ParentNode
 
 def markdown_to_html_node(markdown: str):
     blocks = markdown_to_blocks(markdown)
-    print(f"\n\n#########BLOCKS:{blocks}##########")
     first_parent = ParentNode("div",[])
     for block in blocks:
         type = block_to_block_type(block)
@@ -16,7 +15,12 @@ def markdown_to_html_node(markdown: str):
             parent = ParentNode("p",children)
             first_parent.children.append(parent)
         elif type == BlockType.CODE:
-            children = text_to_children(block)
+            print(f"########BLOCK######:\n {block}")
+            clean_code = clean_code_markdown(block)
+            text_node = TextNode(clean_code, TextType.CODE)
+            html_node = text_node_to_html_node(text_node)
+            parent = ParentNode("pre",[html_node])
+            first_parent.children.append(parent)
         elif type == BlockType.HEADING:
             clean_header_tuple = clean_header_markdown(block)
             children = text_to_children(clean_header_tuple[0])
@@ -29,7 +33,14 @@ def markdown_to_html_node(markdown: str):
         elif type == BlockType.UNORDERED_LIST:
             children = text_to_children(block)
         elif type == BlockType.QUOTE:
+            clean_quote = clean_quote_markdown(block)
+            children = text_to_children(clean_quote)
+            parent = ParentNode("blockquote",children)
+            first_parent.children.append(parent)
+
             return first_parent 
+    print(f"\n\n7 FIRST PARENT RESULT:\n\n{first_parent}\n\n")
+    print(f"\n\n8 FIRST PARENT RESULT HTML:\n\n{first_parent.to_html()}\n\n")
     return first_parent
 
 
@@ -40,23 +51,33 @@ def clean_header_markdown(text: str):
     stripped_text = stripped_text.strip()
     return (stripped_text,count)
 
+def clean_quote_markdown(text: str):
+    text = text[2:]
+    lines = text.split("\n")
+    lines = [line.strip() for line in lines]
+    result = "\n".join(lines)
+    return result
+
+
+def clean_code_markdown(text: str):
+    stripped_text = text.strip("`")
+    lines = stripped_text.split("\n")
+    lines = [line.strip() for line in lines if len(line.strip()) > 0]
+    result = "\n".join(lines)
+    return result + "\n"
+
 def clean_paragraph_markdown(text: str):
-    print(f"text:{text}")
-    stripped_text = text.strip()
-    stripped_text = text.replace("\n"," ")
-    stripped_text = text.strip()
-    print(f"stripped_text: {stripped_text}")
-    return stripped_text
+    lines = text.split("\n")
+    lines = [line.strip() for line in lines]
+    result = " ".join(lines)
+    return result
+
 
 def text_to_children(text):
     children = []
-    print(f"\ntext:{text}")
     text_nodes = text_to_textnode(text)
-    print(f"text to textNode: {text_nodes}")
     for node in text_nodes:
-        print(f"textnode to htmlNode: {text_node_to_html_node(node)}")
         children.append(text_node_to_html_node(node))
-    print("\n")
     return children
 
 
