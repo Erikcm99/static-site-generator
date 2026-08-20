@@ -9,13 +9,13 @@ def markdown_to_html_node(markdown: str):
     first_parent = ParentNode("div",[])
     for block in blocks:
         type = block_to_block_type(block)
+        print(f"TYPE : {type}")
         if type == BlockType.PARAGRAPH:
             clean_paragraph = clean_paragraph_markdown(block)
             children = text_to_children(clean_paragraph)
             parent = ParentNode("p",children)
             first_parent.children.append(parent)
         elif type == BlockType.CODE:
-            print(f"########BLOCK######:\n {block}")
             clean_code = clean_code_markdown(block)
             text_node = TextNode(clean_code, TextType.CODE)
             html_node = text_node_to_html_node(text_node)
@@ -52,10 +52,15 @@ def clean_header_markdown(text: str):
     return (stripped_text,count)
 
 def clean_quote_markdown(text: str):
-    text = text[2:]
+    print(f"TEXT BEFORE: {text}")
+    print(f"TEXT AFTER: {text}")
     lines = text.split("\n")
-    lines = [line.strip() for line in lines]
-    result = "\n".join(lines)
+    new_lines = []
+    for line in lines:
+        new_lines.append(line[1:].strip())
+    print(f"NEWLINES: {new_lines}")
+
+    result = " ".join(new_lines)
     return result
 
 

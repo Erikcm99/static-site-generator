@@ -22,8 +22,10 @@ def block_to_block_type(markdown):
     if markdown.startswith("```\n") and markdown.endswith("```"):
         return BlockType.CODE
     if markdown.startswith(">"):
+        print(f"RAW MARKDOWN: {markdown}")
         for line in markdown.split("\n"):
-            if not line.startswith(">"):
+            print(f"SPLITTED MARKDOWN: {line}")
+            if not line.strip().startswith(">"):
                 return BlockType.PARAGRAPH
         return BlockType.QUOTE
     if markdown.startswith("- "):

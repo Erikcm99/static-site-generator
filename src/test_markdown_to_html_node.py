@@ -42,5 +42,22 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
             html,
             correct,
         )
+
+    def test_quote(self):
+        md = """
+        > The mountains are calling
+        > and I must go
+        """
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        correct = "<div><blockquote>The mountains are calling and I must go</blockquote></div>"
+        print(f"\n\n\nASSERTEQUAL CORRECT: {correct}\n\n\n")
+        print(f"\n\n\nASSERTEQUAL TEST: {html}\n\n\n")
+        self.assertEqual(
+            html,
+            correct,
+        )
+
 if __name__ == '__main__':
     unittest.main()
