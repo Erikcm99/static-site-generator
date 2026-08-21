@@ -29,9 +29,17 @@ def markdown_to_html_node(markdown: str):
             first_parent.children.append(parent)
 
         elif type == BlockType.ORDERED_LIST:
-            children = text_to_children(block)
+            clean_quote = clean_olist_markdown(block)
+            children = text_to_children(clean_quote)
+            parent = ParentNode("ol",children)
+            first_parent.children.append(parent)
+
         elif type == BlockType.UNORDERED_LIST:
-            children = text_to_children(block)
+            clean_quote = clean_ulist_markdown(block)
+            children = text_to_children(clean_quote)
+            parent = ParentNode("ul",children)
+            first_parent.children.append(parent)
+
         elif type == BlockType.QUOTE:
             clean_quote = clean_quote_markdown(block)
             children = text_to_children(clean_quote)
@@ -51,14 +59,29 @@ def clean_header_markdown(text: str):
     stripped_text = stripped_text.strip()
     return (stripped_text,count)
 
-def clean_quote_markdown(text: str):
-    print(f"TEXT BEFORE: {text}")
-    print(f"TEXT AFTER: {text}")
+def clean_ulist_markdown(text: str):
     lines = text.split("\n")
     new_lines = []
     for line in lines:
-        new_lines.append(line[1:].strip())
-    print(f"NEWLINES: {new_lines}")
+        new_lines.append(f"<li>{line.strip()[1:].strip()}</li>")
+
+    result = "".join(new_lines)
+    return result
+
+def clean_olist_markdown(text: str):
+    lines = text.split("\n")
+    new_lines = []
+    for line in lines:
+        new_lines.append(f"<li>{line.strip()[2:].strip()}</li>")
+
+    result = "".join(new_lines)
+    return result
+
+def clean_quote_markdown(text: str):
+    lines = text.split("\n")
+    new_lines = []
+    for line in lines:
+        new_lines.append(line.strip()[1:].strip())
 
     result = " ".join(new_lines)
     return result

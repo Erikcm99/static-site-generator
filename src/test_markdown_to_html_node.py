@@ -59,5 +59,38 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
             correct,
         )
 
+    def test_ul(self):
+        md = """
+        - The mountains are calling
+        - and I must go
+        """
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        correct = "<div><ul><li>The mountains are calling</li><li>and I must go</li></ul></div>"
+        print(f"\n\n\nASSERTEQUAL CORRECT: {correct}\n\n\n")
+        print(f"\n\n\nASSERTEQUAL TEST: {html}\n\n\n")
+        self.assertEqual(
+            html,
+            correct,
+        )
+
+    def test_ol(self):
+        md = """
+        1. The mountains are calling
+        2. and I must go
+        3. forever
+        """
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        correct = "<div><ol><li>The mountains are calling</li><li>and I must go</li><li>forever</li></ol></div>"
+        print(f"\n\n\nASSERTEQUAL CORRECT: {correct}\n\n\n")
+        print(f"\n\n\nASSERTEQUAL TEST: {html}\n\n\n")
+        self.assertEqual(
+            html,
+            correct,
+        )
+
 if __name__ == '__main__':
     unittest.main()

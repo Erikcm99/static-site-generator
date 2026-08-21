@@ -30,19 +30,15 @@ def block_to_block_type(markdown):
         return BlockType.QUOTE
     if markdown.startswith("- "):
         for line in markdown.split("\n"):
-            if not line.startswith("- "):
+            if not line.strip().startswith("- "):
                 return BlockType.PARAGRAPH
         return BlockType.UNORDERED_LIST
     if markdown.startswith("1. "):
         count = 1
         for line in markdown.split("\n"):
-            if not line.startswith(f"{count}. "):
+            if not line.strip().startswith(f"{count}. "):
                 return BlockType.PARAGRAPH
             count += 1
         return BlockType.ORDERED_LIST
     return BlockType.PARAGRAPH
-
-
-    
-
 
