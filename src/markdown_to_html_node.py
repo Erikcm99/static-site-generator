@@ -9,7 +9,6 @@ def markdown_to_html_node(markdown: str):
     first_parent = ParentNode("div",[])
     for block in blocks:
         type = block_to_block_type(block)
-        print(f"TYPE : {type}")
         if type == BlockType.PARAGRAPH:
             clean_paragraph = clean_paragraph_markdown(block)
             children = text_to_children(clean_paragraph)
@@ -47,8 +46,6 @@ def markdown_to_html_node(markdown: str):
             first_parent.children.append(parent)
 
             return first_parent 
-    print(f"\n\n7 FIRST PARENT RESULT:\n\n{first_parent}\n\n")
-    print(f"\n\n8 FIRST PARENT RESULT HTML:\n\n{first_parent.to_html()}\n\n")
     return first_parent
 
 
