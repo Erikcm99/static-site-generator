@@ -36,8 +36,6 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
         node = markdown_to_html_node(md)
         html = node.to_html()
         correct = "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>"
-        print(f"\n\n\nASSERTEQUAL CORRECT: {correct}\n\n\n")
-        print(f"\n\n\nASSERTEQUAL TEST: {html}\n\n\n")
         self.assertEqual(
             html,
             correct,
@@ -52,8 +50,6 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
         node = markdown_to_html_node(md)
         html = node.to_html()
         correct = "<div><blockquote>The mountains are calling and I must go</blockquote></div>"
-        print(f"\n\n\nASSERTEQUAL CORRECT: {correct}\n\n\n")
-        print(f"\n\n\nASSERTEQUAL TEST: {html}\n\n\n")
         self.assertEqual(
             html,
             correct,
@@ -68,8 +64,6 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
         node = markdown_to_html_node(md)
         html = node.to_html()
         correct = "<div><ul><li>The mountains are calling</li><li>and I must go</li></ul></div>"
-        print(f"\n\n\nASSERTEQUAL CORRECT: {correct}\n\n\n")
-        print(f"\n\n\nASSERTEQUAL TEST: {html}\n\n\n")
         self.assertEqual(
             html,
             correct,
@@ -85,8 +79,6 @@ class TestMarkdownToHtmlNode(unittest.TestCase):
         node = markdown_to_html_node(md)
         html = node.to_html()
         correct = "<div><ol><li>The mountains are calling</li><li>and I must go</li><li>forever</li></ol></div>"
-        print(f"\n\n\nASSERTEQUAL CORRECT: {correct}\n\n\n")
-        print(f"\n\n\nASSERTEQUAL TEST: {html}\n\n\n")
         self.assertEqual(
             html,
             correct,
