@@ -1,6 +1,6 @@
 def extract_title(markdown):
     lineas = markdown.split("\n")
-
+    print(f"lineas {lineas}")
     if len(lineas):
         for linea in lineas:
             if linea.startswith("# "):
