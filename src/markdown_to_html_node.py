@@ -6,7 +6,11 @@ from parentnode import ParentNode
 
 def markdown_to_html_node(markdown: str):
     blocks = markdown_to_blocks(markdown)
-    first_parent = ParentNode("div",[])
+    print("TOTAL:", len(blocks))
+
+    for i, block in enumerate(blocks):
+        print(i, repr(block[:80]))
+        first_parent = ParentNode("div",[])
     for block in blocks:
         type = block_to_block_type(block)
         if type == BlockType.PARAGRAPH:
@@ -45,7 +49,6 @@ def markdown_to_html_node(markdown: str):
             parent = ParentNode("blockquote",children)
             first_parent.children.append(parent)
 
-            return first_parent 
     return first_parent
 
 
